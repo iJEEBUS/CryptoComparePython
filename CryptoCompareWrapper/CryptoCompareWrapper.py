@@ -185,6 +185,26 @@ class CryptoCompareWrapper(object):
 		r = requests.get(url, params)
 		return r.json()
 
+########################## FULL COIN SNAPSHOT BY ID ##########################
+	def coinSnapshotFullById(self, id):
+		"""
+		Get the general, subs (used to connect to the streamer and to figure out
+		what exhanges we have data for and what are the exact coin pairs of the coin)
+		and the aggregated prices for all pairs available.
+		Parameters:
+			(int) id - The id of the cion you want data for
+		"""
+		params = {'id' : id}
+		url = self.base_url + 'coinsnapshotfullbyid/'
+
+		if not params:
+			raise Exception('Parameters are required for this feature.')
+			return
+		r = requests.get(url, params)
+		return r.json()
+
+
+
 
 ########################## TESTING AND EXAMPLES ##########################
 C = CryptoCompareWrapper()
