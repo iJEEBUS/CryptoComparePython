@@ -137,9 +137,53 @@ class CryptoCompareWrapper(object):
 		return r.json()
 
 
-########################## TESTING AND EXAMPLES ##########################
+########################## PRICE HISTORICAL ##########################
+	def priceHistorical(self, **params):
+		"""
+		Get the price of any cryptocurrency in any other currency that you need at
+		a given timestamp. The price comes from the daily infor - so it would be 
+		the price at the end of the dat GMT based on the requested TS. If the crypto
+		does not trade directly into the toSymbol requested, BTC will be used for 
+		conversion. Tried to get trading pair data, if there is none or it is more 
+		than 30 days before the ts requested, it uses BTC conversion. If the opposite
+		pair trades then it is inverted (eg.: BTC-XMR)
+		Optional parameters:
+			(string) fsym - from symbol
+			(string) tsyms - to symbols, include multiple symbols
+			(timestamp) ts - timestamp
+			(string) markets - Name of exhanges, include multiple
+			(string) extraParams - Name of your application
+			(bool) sign - If set to true, the server will sign the request
+			(bool) tryConversion - If set to false, it will try to get values without any
+								   conversion at all
+		"""
+
+		url = self.base_url
+		if not params:
+			raise Exception('Parameters are required for this feature.')
+			return
+
+		r = requests.get(url, params)
+		return r.json()
 
 
+########################## COIN SNAPSHOT ##########################
+	def coinSnapshot(self, **params):
+		"""
+		Get data for a currency pair. It returns general block explorer information,
+		aggregated data, and individual data for each exchange available.
+		THIS API IS BEING ABUSED AND WILL BE MOVED IN THE FUTURE.
+		DO NOT USE.
+		Optional parameters:
+			(string) fsym - the symbol of the currency you want to see
+			(string) tsym - the symbol of the currency that data will be in
+		"""
+		url = self.base_url + 'coinsnapshot/'
+		if not params:
+			raise Exception('Parameters are required for this feature.')
+			return
+		r = requests.get(url, params)
+		return r.json()
 
 
 ########################## TESTING AND EXAMPLES ##########################
@@ -154,4 +198,4 @@ test = {
 		#'tryConversion' : True # if false, will get values w/out using any conversion
 }
 
-print C.priceMultipleFull(**(test))
+print C.priceHistorical(**(test))
